@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: edu.kpi.developmentmethods
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, assertj, gradle, http-client, java, java-application, junit, log4j2, mockito, netty-server, readme, security, security-annotations, shade, yaml]

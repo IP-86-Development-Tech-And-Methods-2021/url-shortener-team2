@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: urlShortener
+  server:
+    # Enable CORS so we can use specification
+    # deployed at ... for testing
+    cors:
+      enabled: true
+
+  # Do not respond 401 or 403 when
+  # endpoint does not exist
+  security:
+    reject-not-found: false

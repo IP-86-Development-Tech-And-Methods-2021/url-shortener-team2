@@ -1,0 +1,76 @@
+// 🚫 Dear students, please, don't change this file
+plugins {
+    // As a REST API framework we use Micronaut. It uses code-generation this is why we need a plugin.
+    id("io.micronaut.application") version "1.4.2"
+
+    // Plugin to create "fat/uber" jar file for package relocation
+    id("com.github.johnrengelman.shadow") version "6.1.0"
+
+}
+
+version = "0.1"
+group = "edu.kpi.developmentmethods"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("edu.kpi.developmentmethods.*")
+    }
+}
+
+application {
+    mainClass.set("edu.kpi.developmentmethods.Application")
+}
+
+// Gradle has built-in support for JUnit 5 test framework
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("15")
+    targetCompatibility = JavaVersion.toVersion("15")
+}
+
+// We even use experimental 🔬 features for Java 15. Use them!
+// https://blog.jetbrains.com/idea/2020/09/java-15-and-intellij-idea/
+tasks.withType(JavaCompile) { options.compilerArgs.add("--enable-preview") }
+tasks.withType(Test) { jvmArgs("--enable-preview") }
+tasks.withType(JavaExec) { jvmArgs("--enable-preview") }
+
+dependencies {
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut:micronaut-validation")
+
+
+    // We will use security framework provided by micronaut
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut.security:micronaut-security")
+    implementation("javax.annotation:javax.annotation-api")
+
+    // Logging framework log4j
+    implementation("org.apache.logging.log4j:log4j-core:2.13.2")
+    runtimeOnly("org.apache.logging.log4j:log4j-api:2.13.2")
+    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.13.2")
+
+    // We use JUnit 5 as unit test framework. More details - https://junit.org/junit5/
+    testImplementation(platform("org.junit:junit-bom:5.7.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+
+    // AssertJ is a library that provides different form of assertions (e.g. assertThat(a).isEqualTo(1))
+    // More details - https://assertj.github.io/doc/
+    testImplementation("org.assertj:assertj-core:3.18.1")
+
+    // We use Mockito for mocks/stubs/spies. More details - https://site.mockito.org/
+    testImplementation("org.mockito:mockito-core:3.7.7")
+}
+
+
+
